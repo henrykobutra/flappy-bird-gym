@@ -159,8 +159,7 @@ class FlappyBirdEnvSimple(gym.Env):
         return self._get_observation()
 
     def render(self, mode='human') -> None:
-        if mode not in FlappyBirdEnvRGB.metadata["render.modes"]:
-            raise ValueError("Invalid render mode!")
+     
 
         self._renderer.draw_surface(show_score=True)
         if mode == "rgb_array":
