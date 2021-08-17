@@ -40,6 +40,7 @@ from gym import make
 
 # Registering environments:
 from gym.envs.registration import register
+from flappy_bird_gym import recorder
 
 register(
     id="FlappyBird-v0",
