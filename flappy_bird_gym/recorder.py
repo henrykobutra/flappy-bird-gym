@@ -71,6 +71,7 @@ class Recorder(gym.Wrapper):
         filename = 'temp-{start}.mp4'
         clip = VideoFileClip(self.path)
         clip = clip.fx(vfx.mirror_x)
+        clip = clip.rotate(90)
         clip.write_videofile(filename, progress_bar = False, verbose = False)
         display(Video(filename, embed = True))
         os.remove(filename)
