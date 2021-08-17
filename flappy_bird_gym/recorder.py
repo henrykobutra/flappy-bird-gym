@@ -70,7 +70,7 @@ class Recorder(gym.Wrapper):
         start = time.time()
         filename = 'temp-{start}.mp4'
         clip = VideoFileClip(self.path)
-        clip.rotate(90)
+        clip.rotate(180)
         clip.write_videofile(filename, progress_bar = False, verbose = False)
         display(Video(filename, embed = True))
         os.remove(filename)
