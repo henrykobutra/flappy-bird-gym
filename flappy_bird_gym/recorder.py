@@ -79,7 +79,8 @@ class Recorder(gym.Wrapper):
             clip = clip.rotate(90)
             clips.append(clip)
 
-        print(files)
+        # print(files)
+        print("Processing Video...")
         # print(files)
         # clip = VideoFileClip(self.path)
         # clip = clip.fx(vfx.mirror_x)
