@@ -68,10 +68,26 @@ class Recorder(gym.Wrapper):
 
     def play(self):
         start = time.time()
-        filename = 'temp-{start}.mp4'
-        clip = VideoFileClip(self.path)
-        clip = clip.fx(vfx.mirror_x)
-        clip = clip.rotate(90)
-        clip.write_videofile(filename, progress_bar = False, verbose = False)
+        filename = 'ModelTestingVideo.mp4'
+        files = os.listdir(self.directory)
+        clips = []
+        # finalclip
+        for f in range(len(files)):
+          if("mp4" in files[f]):
+            clip = VideoFileClip(self.directory + '/'+files[f])
+            clip = clip.fx(vfx.mirror_x)
+            clip = clip.rotate(90)
+            clips.append(clip)
+
+        print(files)
+        # print(files)
+        # clip = VideoFileClip(self.path)
+        # clip = clip.fx(vfx.mirror_x)
+        # clip = clip.rotate(90)
+        finalclip = concatenate_videoclips(clips)
+        finalclip.write_videofile(filename, progress_bar = False, verbose = False)
         display(Video(filename, embed = True))
-        os.remove(filename)
+        # os.remove(filename)
+        for f in range(len(files)):
+          if("mp4" in files[f]):
+            os.remove(self.directory + '/' + files[f])
