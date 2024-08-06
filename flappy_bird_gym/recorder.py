@@ -1,10 +1,10 @@
-
 from IPython.core.display import Video, display
 from moviepy.editor import *
 import time
 import cv2
 import gym
 import os
+
 
 class Recorder(gym.Wrapper):
     def __init__(self, env, directory, auto_release=True, size=None, fps=None):
@@ -18,13 +18,13 @@ class Recorder(gym.Wrapper):
 
         if size is None:
             self.env.reset()
-            self.size = self.env.render(mode = 'rgb_array').shape[:2][::-1]
+            self.size = self.env.render(mode="rgb_array").shape[:2][::-1]
         else:
             self.size = size
 
         if fps is None:
-            if 'video.frames_per_second' in self.env.metadata:
-                self.fps = self.env.metadata['video.frames_per_second']
+            if "video.frames_per_second" in self.env.metadata:
+                self.fps = self.env.metadata["video.frames_per_second"]
             else:
                 self.fps = 30
         else:
@@ -38,13 +38,13 @@ class Recorder(gym.Wrapper):
 
     def _start(self):
         self.cliptime = time.time()
-        self.path = f'{self.directory}/{self.cliptime}.mp4'
-        fourcc = cv2.VideoWriter_fourcc(*'MP4V')
+        self.path = f"{self.directory}/{self.cliptime}.mp4"
+        fourcc = cv2.VideoWriter_fourcc(*"MP4V")
         self._writer = cv2.VideoWriter(self.path, fourcc, self.fps, self.size)
 
     def _write(self):
         if self.active:
-            frame = self.env.render(mode = 'rgb_array')
+            frame = self.env.render(mode="rgb_array")
             frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
             self._writer.write(frame)
 
@@ -68,16 +68,16 @@ class Recorder(gym.Wrapper):
 
     def play(self):
         start = time.time()
-        filename = 'ModelTestingVideo.mp4'
+        filename = "ModelTestingVideo.mp4"
         files = os.listdir(self.directory)
         clips = []
         # finalclip
         for f in range(len(files)):
-          if("mp4" in files[f]):
-            clip = VideoFileClip(self.directory + '/'+files[f])
-            clip = clip.fx(vfx.mirror_x)
-            clip = clip.rotate(90)
-            clips.append(clip)
+            if "mp4" in files[f]:
+                clip = VideoFileClip(self.directory + "/" + files[f])
+                clip = clip.fx(vfx.mirror_x)
+                clip = clip.rotate(90)
+                clips.append(clip)
 
         # print(files)
         print("Processing Video...")
@@ -86,9 +86,9 @@ class Recorder(gym.Wrapper):
         # clip = clip.fx(vfx.mirror_x)
         # clip = clip.rotate(90)
         finalclip = concatenate_videoclips(clips)
-        finalclip.write_videofile(filename, progress_bar = False, verbose = False)
-        display(Video(filename, embed = True))
+        finalclip.write_videofile(filename, verbose=False)
+        display(Video(filename, embed=True))
         # os.remove(filename)
         for f in range(len(files)):
-          if("mp4" in files[f]):
-            os.remove(self.directory + '/' + files[f])
+            if "mp4" in files[f]:
+                os.remove(self.directory + "/" + files[f])
